@@ -15,9 +15,9 @@ public class User {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Enumerated(EnumType.STRING)
+    
     @Column(nullable = false, length = 30)
-    private Role role;
+    private String role;
 
     @Column(nullable = false, unique = true, length = 150)
     private String email;
@@ -44,7 +44,7 @@ public class User {
     public User() {
     }
 
-    public User(String name, Role role, String email, String phone) {
+    public User(String name, String role, String email, String phone) {
         this.name = name;
         this.role = role;
         this.email = email;
@@ -59,11 +59,29 @@ public class User {
         return name;
     }
 
-    public Role getRole() {
-        return role;
-    }
+    
 
-    public String getEmail() {
+    public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public void setAuditLogs(List<AuditLog> auditLogs) {
+		this.auditLogs = auditLogs;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
+	}
+
+	public String getEmail() {
         return email;
     }
 
@@ -83,9 +101,7 @@ public class User {
         this.name = name;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+ 
 
     public void setEmail(String email) {
         this.email = email;

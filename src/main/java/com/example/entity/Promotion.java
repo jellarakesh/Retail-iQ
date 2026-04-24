@@ -14,9 +14,9 @@ public class Promotion {
     @Column(nullable = false, length = 150)
     private String name;
 
-    @Enumerated(EnumType.STRING)
+
     @Column(nullable = false, length = 20)
-    private PromotionType type;
+    private String type;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String rules;
@@ -35,9 +35,6 @@ public class Promotion {
         return name;
     }
 
-    public PromotionType getType() {
-        return type;
-    }
 
     public String getRules() {
         return rules;
@@ -51,11 +48,21 @@ public class Promotion {
         this.name = name;
     }
 
-    public void setType(PromotionType type) {
-        this.type = type;
-    }
+   
 
-    public void setRules(String rules) {
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setPromotionId(Long promotionId) {
+		this.promotionId = promotionId;
+	}
+
+	public void setRules(String rules) {
         this.rules = rules;
     }
 

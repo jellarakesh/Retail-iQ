@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.retailiq.catalog.entity.Product;
+import com.example.entity.Product;
 
 @Entity
 @Table(name = "price_list")
@@ -77,4 +77,6 @@ public class PriceList {
     public void setEffectiveTo(LocalDateTime effectiveTo) {
         this.effectiveTo = effectiveTo;
     }
+    
+    
 }
