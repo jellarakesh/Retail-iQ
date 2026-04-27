@@ -1,46 +1,37 @@
 package com.example.entity;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="Location")
+@Table(name = "Location")
 public class Location {
 
     @Id
-    int locationID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "LocationID")
+    private int locationID;
 
-    @Column
-    String name;
+    @Column(name = "Name", nullable = false)
+    private String name;
 
-    @Column
-    String type;
+    @Column(name = "Type", nullable = false)
+    private String type;   // Store / DC
 
-    @Column
-    String region;
+    @Column(name = "Region", nullable = false)
+    private String region;
 
-    public Location(int locationID, String name, String type, String region) {
-        this.locationID = locationID;
+    public Location() {
+    }
+
+    public Location(String name, String type, String region) {
         this.name = name;
         this.type = type;
         this.region = region;
     }
 
-    public Location() {
-        super();
-    }
-
     public int getLocationID() {
         return locationID;
-    }
-
-    public void setLocationID(int locationID) {
-        this.locationID = locationID;
     }
 
     public String getName() {
@@ -68,24 +59,15 @@ public class Location {
     }
 
     @Override
-    public String toString() {
-        return "Location{" +
-                "locationID=" + locationID +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", region='" + region + '\'' +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof Location)) return false;
         Location location = (Location) o;
-        return locationID == location.locationID && Objects.equals(name, location.name) && Objects.equals(type, location.type) && Objects.equals(region, location.region);
+        return locationID == location.locationID;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(locationID, name, type, region);
+        return Objects.hash(locationID);
     }
 }

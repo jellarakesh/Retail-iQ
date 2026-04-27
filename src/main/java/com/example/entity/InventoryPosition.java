@@ -1,52 +1,48 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 @Entity
-@Table(name="InventoryPosition")
+@Table(name = "InventoryPosition")
 public class InventoryPosition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "InventoryID")
     private int inventoryID;
 
-    @Column
+    @Column(name = "LocationID", nullable = false)
     private int locationID;
 
-    @Column
+    @Column(name = "SKU", nullable = false)
     private int sku;
 
-    @Column
+    @Column(name = "QuantityOnHand", nullable = false)
     private int quantityOnHand;
 
-    @Column
+    @Column(name = "QuantityReserved", nullable = false)
     private int quantityReserved;
 
-    @Column
+    @Column(name = "SafetyStock", nullable = false)
     private int safetyStock;
 
-    public InventoryPosition(int locationID, int sku, int quantityOnHand, int quantityReserved,int safetyStock){
-        super();
+    public InventoryPosition() {
+    }
+
+    public InventoryPosition(int locationID, int sku,
+                             int quantityOnHand,
+                             int quantityReserved,
+                             int safetyStock) {
         this.locationID = locationID;
         this.sku = sku;
         this.quantityOnHand = quantityOnHand;
         this.quantityReserved = quantityReserved;
         this.safetyStock = safetyStock;
-
     }
-public  InventoryPosition()
-{
-        super();
-}
 
     public int getInventoryID() {
         return inventoryID;
-    }
-
-    public void setInventoryID(int inventoryID) {
-        this.inventoryID = inventoryID;
     }
 
     public int getLocationID() {
@@ -77,8 +73,8 @@ public  InventoryPosition()
         return quantityReserved;
     }
 
-    public void setQuantityReserved(int qualityReserved) {
-        this.quantityReserved = qualityReserved;
+    public void setQuantityReserved(int quantityReserved) {
+        this.quantityReserved = quantityReserved;
     }
 
     public int getSafetyStock() {
@@ -90,26 +86,15 @@ public  InventoryPosition()
     }
 
     @Override
-    public String toString() {
-        return "InventoryPosition{" +
-                "inventoryID=" + inventoryID +
-                ", locationID=" + locationID +
-                ", sku=" + sku +
-                ", quantityOnHand=" + quantityOnHand +
-                ", quantityReserved=" + quantityReserved +
-                ", safetyStock=" + safetyStock +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof InventoryPosition)) return false;
         InventoryPosition that = (InventoryPosition) o;
-        return inventoryID == that.inventoryID && locationID == that.locationID && sku == that.sku && quantityOnHand == that.quantityOnHand && quantityReserved == that.quantityReserved && safetyStock == that.safetyStock;
+        return inventoryID == that.inventoryID;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(inventoryID, locationID, sku, quantityOnHand, quantityReserved, safetyStock);
+        return Objects.hash(inventoryID);
     }
 }

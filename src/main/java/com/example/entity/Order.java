@@ -1,35 +1,39 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name="order")
+@Table(name = "Orders")   // "Order" is a reserved SQL keyword
 public class Order {
 
     @Id
-         @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int orderID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "OrderID")
+    private int orderID;
 
-    @Column
-    int customerID;
+    @Column(name = "CustomerID", nullable = false)
+    private int customerID;
 
-    @Column
-    String channel;
+    @Column(name = "Channel", nullable = false)
+    private String channel;   // Web / Mobile / Store
 
-    @Column
-    Date orderDate;
+    @Column(name = "OrderDate", nullable = false)
+    private LocalDateTime orderDate;
 
-    @Column
-    String status;
+    @Column(name = "Status", nullable = false)
+    private String status;    // CREATED, CONFIRMED, SHIPPED
 
-    @Column
-    double totalAmount;
+    @Column(name = "TotalAmount", nullable = false)
+    private int totalAmount;
 
-    public Order(int orderID, int customerID, String channel, Date orderDate, String status, double totalAmount) {
-        this.orderID = orderID;
+    public Order() {
+    }
+
+    public Order(int customerID, String channel,
+                 LocalDateTime orderDate,
+                 String status, int totalAmount) {
         this.customerID = customerID;
         this.channel = channel;
         this.orderDate = orderDate;
@@ -37,16 +41,8 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
-    public Order() {
-
-    }
-
     public int getOrderID() {
         return orderID;
-    }
-
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
     }
 
     public int getCustomerID() {
@@ -65,11 +61,11 @@ public class Order {
         this.channel = channel;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -81,35 +77,24 @@ public class Order {
         this.status = status;
     }
 
-    public double getTotalAmount() {
+    public int getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(int totalAmount) {
         this.totalAmount = totalAmount;
     }
 
     @Override
-    public String toString() {
-        return "Order{" +
-                "orderID=" + orderID +
-                ", customerID=" + customerID +
-                ", channel='" + channel + '\'' +
-                ", orderDate=" + orderDate +
-                ", status='" + status + '\'' +
-                ", totalAmount=" + totalAmount +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        return orderID == order.orderID && customerID == order.customerID && Double.compare(totalAmount, order.totalAmount) == 0 && Objects.equals(channel, order.channel) && Objects.equals(orderDate, order.orderDate) && Objects.equals(status, order.status);
+        return orderID == order.orderID;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderID, customerID, channel, orderDate, status, totalAmount);
+        return Objects.hash(orderID);
     }
 }

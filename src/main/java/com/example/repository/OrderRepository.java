@@ -2,10 +2,12 @@ package com.example.repository;
 
 import com.example.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
-public interface OrderRepository extends JpaRepository<Order,Integer> {
+public interface OrderRepository
+        extends JpaRepository<Order, Integer> {
 
+    List<Order> findByCustomerID(int customerID);
 
+    List<Order> findByStatus(String status);
 }

@@ -1,12 +1,13 @@
 package com.example.repository;
 
 import com.example.entity.FulfillmentInstruction;
-import org.hibernate.boot.models.JpaAnnotations;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
-public interface FulfillmentInstructionRepository extends JpaRepository<FulfillmentInstruction, Integer> {
+public interface FulfillmentInstructionRepository
+        extends JpaRepository<FulfillmentInstruction, Integer> {
 
+    List<FulfillmentInstruction> findByOrderID(int orderID);
 
+    List<FulfillmentInstruction> findByStatus(String status);
 }
