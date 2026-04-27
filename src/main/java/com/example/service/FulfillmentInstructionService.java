@@ -1,7 +1,6 @@
 package com.example.service;
 
 import com.example.entity.FulfillmentInstruction;
-import com.example.entity.FulfillmentItem;
 import com.example.repository.FulfillmentInstructionRepository;
 import com.example.repository.FulfillmentItemRepository;
 import org.springframework.stereotype.Service;

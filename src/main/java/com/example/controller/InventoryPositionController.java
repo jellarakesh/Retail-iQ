@@ -1,39 +1,53 @@
 package com.example.controller;
 
-import com.example.entity.InventoryPosition;
+import com.example.dto.InventoryPositionRequestDTO;
+import com.example.dto.InventoryPositionResponseDTO;
 import com.example.service.InventoryPositionService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/inventory")
 public class InventoryPositionController {
 
-    private final InventoryPositionService inventoryService;
+    private InventoryPositionService service;
 
-    public InventoryPositionController(
-            InventoryPositionService inventoryService) {
-        this.inventoryService = inventoryService;
+    public InventoryPositionController(InventoryPositionService service) {
+
+        this.service = service;
     }
 
-    @PostMapping
-    public InventoryPosition saveInventory(
-            @RequestBody InventoryPosition inventoryPosition) {
-        return inventoryService.saveInventory(inventoryPosition);
+    @PostMapping("/create")
+    public InventoryPositionResponseDTO create(@RequestBody InventoryPositionResponseDTO dto){
+        return service.create(dto);
+    }
+
+
+    @GetMapping("/{id}")
+    public InventoryPositionResponseDTO getById(@PathVariable int id) {
+
+        return service.getById(id);
     }
 
     @GetMapping
-    public InventoryPosition getInventory(
-            @RequestParam int sku,
-            @RequestParam int locationID) {
-        return inventoryService
-                .getInventoryBySkuAndLocation(sku, locationID);
+    public Page<InventoryPositionResponseDTO> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return service.getAll(page, size);
     }
 
-    @GetMapping("/available")
-    public int getAvailableInventory(
-            @RequestParam int sku,
-            @RequestParam int locationID) {
-        return inventoryService
-                .getAvailableQuantity(sku, locationID);
+    @PutMapping("/{id}")
+    public InventoryPositionResponseDTO update(
+            @PathVariable int id,
+            @RequestBody InventoryPositionRequestDTO dto) {
+        return service.update(id, dto);
     }
+
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        service.delete(id);
+    }
+
+
 }

@@ -41,50 +41,62 @@ public class FulfillmentInstruction {
     }
 
     public int getInstructionID() {
+
         return instructionID;
     }
 
     public void setInstructionID(int instructionID) {
+
         this.instructionID = instructionID;
     }
 
     public int getOrderID() {
+
         return orderID;
     }
 
     public void setOrderID(int orderID) {
+
         this.orderID = orderID;
     }
 
     public String getSourceLocationID() {
+
         return sourceLocationID;
     }
 
     public void setSourceLocationID(String sourceLocationID) {
+
         this.sourceLocationID = sourceLocationID;
     }
 
     public String getDestination() {
+
         return destination;
     }
 
     public void setDestination(String destination) {
+
         this.destination = destination;
     }
 
     public List<FulfillmentInstruction> getItems() {
+
         return items;
     }
 
     public void setItems(List<FulfillmentInstruction> items) {
+
         this.items = items;
     }
 
     public String getStatus() {
+
         return status;
     }
 
     public void setStatus(String status) {
+
         this.status = status;
     }
 

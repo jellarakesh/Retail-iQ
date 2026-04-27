@@ -1,6 +1,7 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
+
 import java.util.Objects;
 
 @Entity
@@ -42,22 +43,27 @@ public class InventoryPosition {
     }
 
     public int getInventoryID() {
+
         return inventoryID;
     }
 
     public int getLocationID() {
+
         return locationID;
     }
 
     public void setLocationID(int locationID) {
+
         this.locationID = locationID;
     }
 
     public int getSku() {
+
         return sku;
     }
 
     public void setSku(int sku) {
+
         this.sku = sku;
     }
 
@@ -66,22 +72,27 @@ public class InventoryPosition {
     }
 
     public void setQuantityOnHand(int quantityOnHand) {
+
         this.quantityOnHand = quantityOnHand;
     }
 
     public int getQuantityReserved() {
+
         return quantityReserved;
     }
 
     public void setQuantityReserved(int quantityReserved) {
+
         this.quantityReserved = quantityReserved;
     }
 
     public int getSafetyStock() {
+
         return safetyStock;
     }
 
     public void setSafetyStock(int safetyStock) {
+
         this.safetyStock = safetyStock;
     }
 
@@ -95,6 +106,7 @@ public class InventoryPosition {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(inventoryID);
     }
 }

@@ -31,9 +31,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(int customerID, String channel,
-                 LocalDateTime orderDate,
-                 String status, int totalAmount) {
+    public Order(int customerID, String channel, LocalDateTime orderDate, String status, int totalAmount) {
         this.customerID = customerID;
         this.channel = channel;
         this.orderDate = orderDate;
@@ -42,38 +40,47 @@ public class Order {
     }
 
     public int getOrderID() {
+
         return orderID;
     }
 
     public int getCustomerID() {
+
         return customerID;
     }
 
     public void setCustomerID(int customerID) {
+
         this.customerID = customerID;
     }
 
     public String getChannel() {
+
         return channel;
     }
 
     public void setChannel(String channel) {
+
         this.channel = channel;
     }
 
     public LocalDateTime getOrderDate() {
+
         return orderDate;
     }
 
     public void setOrderDate(LocalDateTime orderDate) {
+
         this.orderDate = orderDate;
     }
 
     public String getStatus() {
+
         return status;
     }
 
     public void setStatus(String status) {
+
         this.status = status;
     }
 
@@ -82,14 +89,14 @@ public class Order {
     }
 
     public void setTotalAmount(int totalAmount) {
+
         this.totalAmount = totalAmount;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Order)) return false;
-        Order order = (Order) o;
+        if (!(o instanceof Order order)) return false;
         return orderID == order.orderID;
     }
 

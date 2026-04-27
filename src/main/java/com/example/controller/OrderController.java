@@ -1,10 +1,10 @@
 package com.example.controller;
 
-import com.example.entity.Order;
+import com.example.dto.OrderRequestDTO;
+import com.example.dto.OrderResponseDTO;
 import com.example.service.OrderService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
@@ -17,31 +17,35 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.createOrder(order);
+    public OrderResponseDTO create(
+            @RequestBody OrderRequestDTO dto) {
+        return orderService.create(dto);
     }
 
     @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable int id) {
-        return orderService.getOrderById(id);
+    public OrderResponseDTO getById(
+            @PathVariable int id) {
+        return orderService.getById(id);
     }
 
-    @GetMapping("/customer/{customerID}")
-    public List<Order> getOrdersByCustomer(
-            @PathVariable int customerID) {
-        return orderService.getOrdersByCustomer(customerID);
+    @GetMapping
+    public Page<OrderResponseDTO> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return orderService.getAll(page, size);
     }
 
-    @GetMapping("/status/{status}")
-    public List<Order> getOrdersByStatus(
-            @PathVariable String status) {
-        return orderService.getOrdersByStatus(status);
-    }
-
-    @PutMapping("/{id}/status")
-    public Order updateOrderStatus(
+    @PutMapping("/{id}")
+    public OrderResponseDTO update(
             @PathVariable int id,
-            @RequestParam String status) {
-        return orderService.updateOrderStatus(id, status);
+            @RequestBody OrderRequestDTO dto) {
+
+        return orderService.update(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        orderService.delete(id);
     }
 }
