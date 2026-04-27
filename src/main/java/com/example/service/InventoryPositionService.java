@@ -22,7 +22,7 @@ public class InventoryPositionService {
 
         this.repository = repository;
     }
-    public InventoryPositionResponseDTO create(InventoryPositionResponseDTO dto){
+    public InventoryPositionResponseDTO create(InventoryPositionRequestDTO dto){
         InventoryPosition saved = repository.save(mapToEntity(dto));
         return mapToResponse(saved);
     }

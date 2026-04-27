@@ -1,33 +1,22 @@
-package com.example.entity;
+package com.example.dto;
 
-import jakarta.persistence.*;
+import java.util.List;
 
-@Entity
-@Table(name = "FulfillmentInstruction")
-public class FulfillmentInstruction {
+public class FulfillmentInstructionResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int instructionID;
-
-    @Column(nullable = false)
     private int orderID;
-
-    @Column(nullable = false)
     private int sourceLocationID;
-
-    @Column(nullable = false)
     private int destination;
-
-    @Column(nullable = false)
     private String status;
-
-    // Store items as plain JSON string
-    @Column(columnDefinition = "TEXT")
-    private String items;
+    private List<Item> items;
 
     public int getInstructionID() {
         return instructionID;
+    }
+
+    public void setInstructionID(int instructionID) {
+        this.instructionID = instructionID;
     }
 
     public int getOrderID() {
@@ -62,11 +51,32 @@ public class FulfillmentInstruction {
         this.status = status;
     }
 
-    public String getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(String items) {
+    public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public static class Item {
+        private int sku;
+        private int quantity;
+
+        public int getSku() {
+            return sku;
+        }
+
+        public void setSku(int sku) {
+            this.sku = sku;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
     }
 }

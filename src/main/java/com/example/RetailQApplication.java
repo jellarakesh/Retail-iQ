@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RetailQApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RetailQApplication.class, args);
+
+		 SpringApplication.run(RetailQApplication.class, args);
 	}
 
 }

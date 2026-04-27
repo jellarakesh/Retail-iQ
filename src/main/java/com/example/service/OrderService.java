@@ -94,4 +94,8 @@ public class OrderService {
 
         return dto;
     }
+
+    public OrderResponseDTO update(int id, OrderRequestDTO dto) {
+        return null;
+    }
 }

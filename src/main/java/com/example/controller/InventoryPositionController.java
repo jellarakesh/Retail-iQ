@@ -18,7 +18,7 @@ public class InventoryPositionController {
     }
 
     @PostMapping("/create")
-    public InventoryPositionResponseDTO create(@RequestBody InventoryPositionResponseDTO dto){
+    public InventoryPositionResponseDTO create(@RequestBody InventoryPositionRequestDTO dto){
         return service.create(dto);
     }
 

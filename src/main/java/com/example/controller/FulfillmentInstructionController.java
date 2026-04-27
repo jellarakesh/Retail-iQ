@@ -1,44 +1,50 @@
 package com.example.controller;
-
-import com.example.entity.FulfillmentInstruction;
+import com.example.dto.FulfillmentInstructionRequestDTO;
+import com.example.dto.FulfillmentInstructionResponseDTO;
 import com.example.service.FulfillmentInstructionService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/fulfillments")
 public class FulfillmentInstructionController {
 
-    private final FulfillmentInstructionService fulfillmentService;
+    private final FulfillmentInstructionService service;
 
-    public FulfillmentInstructionController(
-            FulfillmentInstructionService fulfillmentService) {
-        this.fulfillmentService = fulfillmentService;
+    public FulfillmentInstructionController(FulfillmentInstructionService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public FulfillmentInstruction createFulfillment(
-            @RequestBody FulfillmentInstruction instruction) {
-        return fulfillmentService
-                .createFulfillmentInstruction(instruction);
+    public FulfillmentInstructionResponseDTO create(
+            @RequestBody FulfillmentInstructionRequestDTO dto) {
+        return service.create(dto);
     }
 
     @GetMapping("/{id}")
-    public FulfillmentInstruction getById(
+    public FulfillmentInstructionResponseDTO getById(
             @PathVariable int id) {
-        return fulfillmentService.getInstructionById(id);
+        return service.getById(id);
     }
 
-    @GetMapping("/order/{orderID}")
-    public List<FulfillmentInstruction> getByOrder(
-            @PathVariable int orderID) {
-        return fulfillmentService.getByOrderID(orderID);
+    @GetMapping
+    public Page<FulfillmentInstructionResponseDTO> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return service.getAll(page, size);
     }
 
-    @GetMapping("/status/{status}")
-    public List<FulfillmentInstruction> getByStatus(
-            @PathVariable String status) {
-        return fulfillmentService.getByStatus(status);
+    @PutMapping("/{id}")
+    public FulfillmentInstructionResponseDTO update(
+            @PathVariable int id,
+            @RequestBody FulfillmentInstructionRequestDTO dto) {
+        return service.update(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        service.delete(id);
     }
 }
+
+

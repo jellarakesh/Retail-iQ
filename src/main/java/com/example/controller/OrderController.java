@@ -19,13 +19,13 @@ public class OrderController {
     @PostMapping
     public OrderResponseDTO create(
             @RequestBody OrderRequestDTO dto) {
-        return orderService.create(dto);
+        return orderService.createOrder(dto);
     }
 
     @GetMapping("/{id}")
     public OrderResponseDTO getById(
             @PathVariable int id) {
-        return orderService.getById(id);
+        return orderService.getOrderById(id);
     }
 
     @GetMapping
@@ -33,7 +33,7 @@ public class OrderController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        return orderService.getAll(page, size);
+        return orderService.getAllOrders(page, size);
     }
 
     @PutMapping("/{id}")
@@ -46,6 +46,6 @@ public class OrderController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
-        orderService.delete(id);
+        orderService.deleteOrder(id);
     }
 }
