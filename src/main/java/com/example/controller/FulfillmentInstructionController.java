@@ -15,7 +15,7 @@ public class FulfillmentInstructionController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public FulfillmentInstructionResponseDTO create(
             @RequestBody FulfillmentInstructionRequestDTO dto) {
         return service.create(dto);
@@ -27,7 +27,7 @@ public class FulfillmentInstructionController {
         return service.getById(id);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public Page<FulfillmentInstructionResponseDTO> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

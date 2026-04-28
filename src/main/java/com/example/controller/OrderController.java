@@ -16,7 +16,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public OrderResponseDTO create(
             @RequestBody OrderRequestDTO dto) {
         return orderService.createOrder(dto);
@@ -28,7 +28,7 @@ public class OrderController {
         return orderService.getOrderById(id);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public Page<OrderResponseDTO> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

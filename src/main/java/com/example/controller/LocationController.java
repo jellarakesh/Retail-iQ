@@ -19,8 +19,9 @@ public class LocationController {
     }
 
 
-    @PostMapping
+    @PostMapping("/add")
     public LocationResponseDTO create(@RequestBody LocationRequestDTO dto) {
+
         return locationService.create(dto);
     }
 
@@ -38,7 +39,7 @@ public class LocationController {
     }
 
 
-    @GetMapping
+    @GetMapping("/getAll")
     public Page<LocationResponseDTO> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

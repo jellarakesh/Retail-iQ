@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InventoryPositionRepository extends JpaRepository<InventoryPosition, Integer>{
 
+    InventoryPosition findByLocationIDAndSku(int locationID, int sku);
 }

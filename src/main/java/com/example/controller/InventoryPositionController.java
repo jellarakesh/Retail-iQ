@@ -29,7 +29,7 @@ public class InventoryPositionController {
         return service.getById(id);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public Page<InventoryPositionResponseDTO> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
