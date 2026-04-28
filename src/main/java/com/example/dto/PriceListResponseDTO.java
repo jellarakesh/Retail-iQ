@@ -1,21 +1,21 @@
 package com.example.dto;
 
-import com.example.entity.Notification;
+import com.example.entity.PriceList;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "notification", "statusCode", "message" })
-public class NotificationResponseDTO {
+@JsonPropertyOrder({ "priceList", "statusCode", "message" })
+public class PriceListResponseDTO {
 
-    private Notification notification;
+    private PriceList priceList;
     private int statusCode;
     private String message;
 
-    public Notification getNotification() {
-        return notification;
+    public PriceList getPriceList() {
+        return priceList;
     }
 
-    public void setNotification(Notification notification) {
-        this.notification = notification;
+    public void setPriceList(PriceList priceList) {
+        this.priceList = priceList;
     }
 
     public int getStatusCode() {
