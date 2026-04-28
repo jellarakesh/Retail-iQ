@@ -1,91 +1,39 @@
 package com.example.service;
 
-import com.example.dto.LocationRequestDTO;
-import com.example.dto.LocationResponseDTO;
-import com.example.entity.Location;
-import com.example.exception.ResourceNotFoundException;
-import com.example.repository.LocationRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.entity.Location;
+import com.example.repository.LocationRepository;
 
 @Service
 public class LocationService {
 
-    private final LocationRepository locationRepository;
+    @Autowired
+    private LocationRepository repository;
 
-    public LocationService(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
+    public Location addLocation(Location location) {
+        return repository.save(location);
     }
 
-
-    public LocationResponseDTO create(LocationRequestDTO dto) {
-        Location location = mapToEntity(dto);
-        Location saved = locationRepository.save(location);
-        return mapToResponse(saved);
+    public Location updateLocation(Location location) {
+        return repository.save(location);
     }
 
-    public LocationResponseDTO getById(int id) {
-        Location location = locationRepository.findById(id).orElseThrow(() ->new ResourceNotFoundException("Location not found with id " + id));
-        return mapToResponse(location);
+    public String deleteLocation(Long locationId) throws Exception {
+        Location location = findLocationById(locationId);
+        repository.delete(location);
+        return "Location deleted successfully";
     }
 
-
-    public LocationResponseDTO getByName(String name) {
-        Location location = locationRepository.findByName(name);
-        if (location == null) {
-            throw new ResourceNotFoundException(
-                    "Location not found with name " + name);
-        }
-        return mapToResponse(location);
+    public Location findLocationById(Long locationId) throws Exception {
+        return repository.findById(locationId)
+                .orElseThrow(() -> new Exception("Location not found"));
     }
 
-
-    public Page<LocationResponseDTO> getAll(int page, int size) {
-        return locationRepository.findAll(PageRequest.of(page, size))
-                .map(this::mapToResponse);
+    public List<Location> getAllLocations() {
+        return repository.findAll();
     }
-
-
-    public LocationResponseDTO update(int id, LocationRequestDTO dto) {
-
-        Location location = locationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Location not found with id " + id));
-
-        location.setName(dto.getName());
-        location.setType(dto.getType());
-        location.setRegion(dto.getRegion());
-
-        return mapToResponse(locationRepository.save(location));
-    }
-
-    public void delete(int id) {
-        Location location = locationRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Location not found with id " + id));
-        locationRepository.delete(location);
-    }
-
-
-
-    private Location mapToEntity(LocationRequestDTO dto) {
-        Location location = new Location();
-        location.setName(dto.getName());
-        location.setType(dto.getType());
-        location.setRegion(dto.getRegion());
-        return location;
-    }
-
-
-    private LocationResponseDTO mapToResponse(Location location) {
-        LocationResponseDTO dto = new LocationResponseDTO();
-        dto.setLocationID(location.getLocationID());
-        dto.setName(location.getName());
-        dto.setType(location.getType());
-        dto.setRegion(location.getRegion());
-        return dto;
-    }
-
-
-
 }
