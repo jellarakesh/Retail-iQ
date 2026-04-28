@@ -1,30 +1,19 @@
 package com.example.controller;
 
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-
+import com.example.dto.NotificationDTO;
+import com.example.dto.NotificationResponseDTO;
 import com.example.entity.Notification;
 import com.example.service.NotificationService;
 
+import org.springframework.data.domain.Page;
+
 @RestController
-@RequestMapping("/notification")
-@Tag(name = "Notification Controller")
+@RequestMapping("/api")
 public class NotificationController {
 
     private final NotificationService service;
@@ -33,29 +22,73 @@ public class NotificationController {
         this.service = service;
     }
 
-    @PostMapping("/add")
-    public Notification add(@RequestBody Notification notification) {
-        return service.save(notification);
+    // ✅ Add Notification
+    @PostMapping("/addNotification")
+    public ResponseEntity<NotificationResponseDTO> addNotification(
+            @RequestBody NotificationDTO dto) {
+
+        Notification saved = service.save(dto.getNotification());
+
+        NotificationResponseDTO response = new NotificationResponseDTO();
+        response.setNotification(saved);
+        response.setMessage("Notification added successfully");
+        response.setStatusCode(201);
+
+        return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/find/{id}")
-    public Notification get(@PathVariable Long id) {
+    // ✅ Update Notification
+    @PostMapping("/updateNotification")
+    public ResponseEntity<NotificationResponseDTO> updateNotification(
+            @RequestBody NotificationDTO dto) {
+
+        Notification updated = service.update(dto.getNotification());
+
+        NotificationResponseDTO response = new NotificationResponseDTO();
+        response.setNotification(updated);
+        response.setMessage("Notification updated successfully");
+        response.setStatusCode(200);
+
+        return ResponseEntity.ok(response);
+    }
+
+    // ✅ Find Notification by ID
+    @GetMapping("/findNotification/{id}")
+    public Notification findNotification(@PathVariable Long id) {
         return service.getById(id);
     }
 
 
-    @GetMapping("/fetchAllPaginated")
-    public Page<Notification> getAll(
-            @RequestParam int pgno,
-            @RequestParam int size,
-            @RequestParam String sorting,
-            @RequestParam boolean asc) {
+    @GetMapping("/fetchNotificationsWithPagination")
+    public Page<Notification> fetchNotificationsWithPagination(
+            @RequestParam int page,
+            @RequestParam int size) {
 
-        Pageable pageable = PageRequest.of(
-                pgno, size,
-                asc ? Sort.by(sorting).ascending()
-                    : Sort.by(sorting).descending());
+        return service.getAllWithPagination(page, size);
+    }
 
-        return service.getAll(pageable);
+    // ✅ Fetch All Notifications
+    @GetMapping("/fetchAllNotifications")
+    public List<Notification> fetchAllNotifications() {
+        return service.getAll();
+    }
+
+    // ✅ Delete Notification
+    @DeleteMapping("/deleteNotification")
+    public String deleteNotification(@RequestBody Notification notification) {
+        service.delete(notification.getNotificationId());
+        return "Notification deleted successfully";
+    }
+
+    // ✅ Fetch unread in‑app alerts for a user
+    @GetMapping("/alerts/{userId}")
+    public List<Notification> getUnreadAlerts(@PathVariable Long userId) {
+        return service.getUnreadAlerts(userId);
+    }
+
+    // ✅ Mark alert as READ
+    @PutMapping("/alerts/read/{id}")
+    public Notification markAlertAsRead(@PathVariable Long id) {
+        return service.markAsRead(id);
     }
 }

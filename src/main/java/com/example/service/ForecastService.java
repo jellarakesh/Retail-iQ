@@ -3,6 +3,7 @@ package com.example.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,8 @@ public class ForecastService {
         String sku = forecast.getProduct().getSku();
         Long locationId = forecast.getLocation().getLocationId();
 
-        Product product = productRepository.findBySku(sku)
-                .orElseThrow(() ->
-                        new RuntimeException("Product not found with sku " + sku));
+        Product product = productRepository.findBySku(sku).orElseThrow(() ->
+                        new ProductNotFoundException("Product not found with sku " + sku));
 
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() ->

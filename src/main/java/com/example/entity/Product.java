@@ -3,13 +3,19 @@ package com.example.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(
+        name = "product",
+        uniqueConstraints = @UniqueConstraint(columnNames = "sku")
+)
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    @Column(nullable = false, unique = true)
     private String sku;
+
     private String name;
     private String category;
 
