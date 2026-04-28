@@ -1,11 +1,8 @@
 package com.example.controller;
 
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
+import com.example.entity.AuditLog;
+import com.example.service.AuditLogService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -19,33 +16,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
+import com.example.entity.AuditLog;
+import com.example.service.AuditLogService;
 
 @RestController
-@RequestMapping("/notification")
-@Tag(name = "Notification Controller")
-public class NotificationController {
+@RequestMapping("/auditlog")
+@Tag(name = "AuditLog Controller")
+public class AuditLogController {
 
-    private final NotificationService service;
+    private final AuditLogService service;
 
-    public NotificationController(NotificationService service) {
+    public AuditLogController(AuditLogService service) {
         this.service = service;
     }
 
-    @PostMapping("/add")
-    public Notification add(@RequestBody Notification notification) {
-        return service.save(notification);
-    }
-
-    @GetMapping("/find/{id}")
-    public Notification get(@PathVariable Long id) {
-        return service.getById(id);
-    }
-
-
     @GetMapping("/fetchAllPaginated")
-    public Page<Notification> getAll(
+    public Page<AuditLog> getAll(
             @RequestParam int pgno,
             @RequestParam int size,
             @RequestParam String sorting,

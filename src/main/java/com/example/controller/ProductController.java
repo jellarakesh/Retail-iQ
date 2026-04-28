@@ -1,11 +1,11 @@
 package com.example.controller;
 
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
+import com.example.entity.Product;
+import com.example.service.ProductService;
+
+import com.example.entity.AuditLog;
+import com.example.service.AuditLogService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -18,34 +18,35 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
-
 @RestController
-@RequestMapping("/notification")
-@Tag(name = "Notification Controller")
-public class NotificationController {
+@RequestMapping("/product")
+@Tag(name = "Product Controller")
+public class ProductController {
 
-    private final NotificationService service;
+    private final ProductService service;
 
-    public NotificationController(NotificationService service) {
+    public ProductController(ProductService service) {
         this.service = service;
     }
 
     @PostMapping("/add")
-    public Notification add(@RequestBody Notification notification) {
-        return service.save(notification);
+    public Product add(@RequestBody Product product) {
+        return service.save(product);
     }
 
     @GetMapping("/find/{id}")
-    public Notification get(@PathVariable Long id) {
+    public Product get(@PathVariable Long id) {
         return service.getById(id);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        service.delete(id);
+        return "Product deleted successfully";
+    }
 
     @GetMapping("/fetchAllPaginated")
-    public Page<Notification> getAll(
+    public Page<Product> getAll(
             @RequestParam int pgno,
             @RequestParam int size,
             @RequestParam String sorting,

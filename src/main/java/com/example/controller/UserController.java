@@ -1,11 +1,11 @@
 package com.example.controller;
 
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
+import com.example.entity.User;
+import com.example.service.UserService;
+
+import com.example.entity.AuditLog;
+import com.example.service.AuditLogService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -18,34 +18,45 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
-
 @RestController
-@RequestMapping("/notification")
-@Tag(name = "Notification Controller")
-public class NotificationController {
+@RequestMapping("/user")
+@Tag(name = "User Controller")
+public class UserController {
 
-    private final NotificationService service;
+    private final UserService service;
 
-    public NotificationController(NotificationService service) {
+    public UserController(UserService service) {
         this.service = service;
     }
 
     @PostMapping("/add")
-    public Notification add(@RequestBody Notification notification) {
-        return service.save(notification);
+    @Operation(summary = "Add User")
+    public User add(@RequestBody User user) {
+        return service.save(user);
+    }
+
+    @PutMapping("/update")
+    @Operation(summary = "Update User")
+    public User update(@RequestBody User user) {
+        return service.save(user);
     }
 
     @GetMapping("/find/{id}")
-    public Notification get(@PathVariable Long id) {
+    @Operation(summary = "Get User by ID")
+    public User get(@PathVariable Long id) {
         return service.getById(id);
     }
 
+    @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Delete User")
+    public String delete(@PathVariable Long id) {
+        service.delete(id);
+        return "User deleted successfully";
+    }
 
     @GetMapping("/fetchAllPaginated")
-    public Page<Notification> getAll(
+    @Operation(summary = "Fetch Users with Pagination")
+    public Page<User> getAll(
             @RequestParam int pgno,
             @RequestParam int size,
             @RequestParam String sorting,

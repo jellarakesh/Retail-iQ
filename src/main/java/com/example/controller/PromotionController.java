@@ -1,11 +1,8 @@
 package com.example.controller;
 
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
+import com.example.entity.Promotion;
+import com.example.service.PromotionService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -18,34 +15,32 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
+import com.example.entity.Promotion;
+import com.example.service.PromotionService;
 
 @RestController
-@RequestMapping("/notification")
-@Tag(name = "Notification Controller")
-public class NotificationController {
+@RequestMapping("/promotion")
+@Tag(name = "Promotion Controller")
+public class PromotionController {
 
-    private final NotificationService service;
+    private final PromotionService service;
 
-    public NotificationController(NotificationService service) {
+    public PromotionController(PromotionService service) {
         this.service = service;
     }
 
     @PostMapping("/add")
-    public Notification add(@RequestBody Notification notification) {
-        return service.save(notification);
+    public Promotion add(@RequestBody Promotion promotion) {
+        return service.save(promotion);
     }
 
     @GetMapping("/find/{id}")
-    public Notification get(@PathVariable Long id) {
+    public Promotion get(@PathVariable Long id) {
         return service.getById(id);
     }
 
-
     @GetMapping("/fetchAllPaginated")
-    public Page<Notification> getAll(
+    public Page<Promotion> getAll(
             @RequestParam int pgno,
             @RequestParam int size,
             @RequestParam String sorting,
