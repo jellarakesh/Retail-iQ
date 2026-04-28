@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 public class RetailQApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RetailQApplication.class, args);
+
+		 SpringApplication.run(RetailQApplication.class, args);
 	}
 }
