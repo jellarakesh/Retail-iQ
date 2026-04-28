@@ -1,71 +1,88 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import java.util.Map;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
     private Long productId;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(name = "sku", nullable = false, unique = true)
     private String sku;
 
-    @Column(nullable = false, length = 150)
+    @Column
     private String name;
 
-    @Column(nullable = false, length = 100)
+    @Column
     private String category;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "product_attributes",
-            joinColumns = @JoinColumn(name = "product_id")
-    )
-    @MapKeyColumn(name = "attribute_name")
-    @Column(name = "attribute_value")
-    private Map<String, String> attributes;
+    @Column
+    private String attributes;
 
     public Product() {
+        super();
+    }
+
+    public Product(Long productId, String sku, String name,
+                   String category, String attributes) {
+        this.productId = productId;
+        this.sku = sku;
+        this.name = name;
+        this.category = category;
+        this.attributes = attributes;
     }
 
     public Long getProductId() {
         return productId;
     }
 
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
     public String getSku() {
         return sku;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public Map<String, String> getAttributes() {
-        return attributes;
     }
 
     public void setSku(String sku) {
         this.sku = sku;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public void setCategory(String category) {
         this.category = category;
     }
 
-    public void setAttributes(Map<String, String> attributes) {
+    public String getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(String attributes) {
         this.attributes = attributes;
+    }
+
+    @Override
+    public String toString() {
+        return "Product [" +
+                "productId=" + productId +
+                ", sku=" + sku +
+                ", name=" + name +
+                ", category=" + category +
+                ", attributes=" + attributes +
+                "]";
     }
 }

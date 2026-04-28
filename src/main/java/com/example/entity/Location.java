@@ -1,81 +1,75 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import java.util.Objects;
 
 @Entity
-@Table(name = "Location")
+@Table(name = "location")
 public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "LocationID")
-    private int locationID;
+    private Long locationId;
 
-    @Column(name = "Name", nullable = false)
+    @Column
     private String name;
 
-    @Column(name = "Type", nullable = false)
+    @Column
     private String type;   // Store / DC
 
-    @Column(name = "Region", nullable = false)
+    @Column
     private String region;
 
     public Location() {
+        super();
     }
 
-    public Location(String name, String type, String region) {
+    public Location(Long locationId, String name,
+                    String type, String region) {
+        this.locationId = locationId;
         this.name = name;
         this.type = type;
         this.region = region;
     }
 
-    public int getLocationID() {
+    public Long getLocationId() {
+        return locationId;
+    }
 
-        return locationID;
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 
     public String getName() {
-
         return name;
     }
 
     public void setName(String name) {
-
         this.name = name;
     }
 
     public String getType() {
-
         return type;
-    }
+    }    
 
     public void setType(String type) {
-
         this.type = type;
     }
 
     public String getRegion() {
-
         return region;
-    }
+    }    
 
     public void setRegion(String region) {
-
         this.region = region;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Location)) return false;
-        Location location = (Location) o;
-        return locationID == location.locationID;
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(locationID);
+    public String toString() {
+        return "Location [" +
+                "locationId=" + locationId +
+                ", name=" + name +
+                ", type=" + type +
+                ", region=" + region +
+                "]";
     }
 }

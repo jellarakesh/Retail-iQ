@@ -1,82 +1,100 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
-import java.util.*;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "customer")
 public class CustomerProfile {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column
     private String loyaltyTier;
 
-    @Column(columnDefinition="TEXT")
+    @Column
     private String preferences;
 
-    @OneToMany(mappedBy="customer")
-    private List<Order> orders = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recommendation> recommendations;
 
-    @OneToMany(mappedBy="customer")
-    private List<Recommendation> recommendations = new ArrayList<>();
+    public CustomerProfile() {
+    	super();
+    }
 
-	public Long getCustomerId() {
-		return customerId;
-	}
+    public CustomerProfile(String name, String email,
+                           String loyaltyTier, String preferences) {
+        this.name = name;
+        this.email = email;
+        this.loyaltyTier = loyaltyTier;
+        this.preferences = preferences;
+    }
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getLoyaltyTier() {
-		return loyaltyTier;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setLoyaltyTier(String loyaltyTier) {
-		this.loyaltyTier = loyaltyTier;
-	}
+    public String getLoyaltyTier() {
+        return loyaltyTier;
+    }
 
-	public String getPreferences() {
-		return preferences;
-	}
+    public void setLoyaltyTier(String loyaltyTier) {
+        this.loyaltyTier = loyaltyTier;
+    }
 
-	public void setPreferences(String preferences) {
-		this.preferences = preferences;
-	}
+    public String getPreferences() {
+        return preferences;
+    }
 
-	public List<Order> getOrders() {
-		return orders;
-	}
+    public void setPreferences(String preferences) {
+        this.preferences = preferences;
+    }
 
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
+    public List<Recommendation> getRecommendations() {
+        return recommendations;
+    }
 
-	public List<Recommendation> getRecommendations() {
-		return recommendations;
-	}
+    public void setRecommendations(List<Recommendation> recommendations) {
+        this.recommendations = recommendations;
+    }
 
-	public void setRecommendations(List<Recommendation> recommendations) {
-		this.recommendations = recommendations;
-	}
-
-    // getters & setters
+    @Override
+    public String toString() {
+        return "CustomerProfile [customerId=" + customerId +
+                ", name=" + name +
+                ", email=" + email +
+                ", loyaltyTier=" + loyaltyTier +
+                ", preferences=" + preferences + "]";
+    }
 }
