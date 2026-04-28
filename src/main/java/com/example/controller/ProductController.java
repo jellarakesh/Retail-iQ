@@ -1,62 +1,63 @@
 package com.example.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.dto.ProductDTO;
+import com.example.dto.ProductResponseDTO;
 import com.example.entity.Product;
 import com.example.service.ProductService;
 
-import com.example.entity.AuditLog;
-import com.example.service.AuditLogService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 @RestController
-@RequestMapping("/product")
-@Tag(name = "Product Controller")
+@RequestMapping("/api/product")
 public class ProductController {
 
-    private final ProductService service;
-
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
+    @Autowired
+    private ProductService service;
 
     @PostMapping("/add")
-    public Product add(@RequestBody Product product) {
-        return service.save(product);
+    public ResponseEntity<ProductResponseDTO> addProduct(
+            @RequestBody ProductDTO productDTO) {
+
+        Product saved = service.addProduct(productDTO.getProduct());
+
+        ProductResponseDTO response = new ProductResponseDTO();
+        response.setProduct(saved);
+        response.setStatusCode(201);
+        response.setMessage("Product added successfully");
+
+        return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/find/{id}")
-    public Product get(@PathVariable Long id) {
-        return service.getById(id);
+    @PostMapping("/update")
+    public ResponseEntity<ProductResponseDTO> updateProduct(
+            @RequestBody ProductDTO productDTO) {
+
+        Product updated = service.updateProduct(productDTO.getProduct());
+
+        ProductResponseDTO response = new ProductResponseDTO();
+        response.setProduct(updated);
+        response.setStatusCode(200);
+        response.setMessage("Product updated successfully");
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
-        return "Product deleted successfully";
+    public String deleteProduct(@PathVariable Long id) throws Exception {
+        return service.deleteProduct(id);
     }
 
-    @GetMapping("/fetchAllPaginated")
-    public Page<Product> getAll(
-            @RequestParam int pgno,
-            @RequestParam int size,
-            @RequestParam String sorting,
-            @RequestParam boolean asc) {
+    @GetMapping("/find/{id}")
+    public Product findProduct(@PathVariable Long id) throws Exception {
+        return service.findProductById(id);
+    }
 
-        Pageable pageable = PageRequest.of(
-                pgno, size,
-                asc ? Sort.by(sorting).ascending()
-                    : Sort.by(sorting).descending());
-
-        return service.getAll(pageable);
+    @GetMapping("/fetchAll")
+    public List<Product> fetchAllProducts() {
+        return service.getAllProducts();
     }
 }

@@ -1,64 +1,63 @@
 package com.example.controller;
 
-import com.example.dto.LocationRequestDTO;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.dto.LocationDTO;
 import com.example.dto.LocationResponseDTO;
 import com.example.entity.Location;
 import com.example.service.LocationService;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/locations")
+@RequestMapping("/api/location")
 public class LocationController {
 
-   private final LocationService locationService;
-
-
-    public LocationController(LocationService locationService) {
-        this.locationService = locationService;
-    }
-
+    @Autowired
+    private LocationService service;
 
     @PostMapping("/add")
-    public LocationResponseDTO create(@RequestBody LocationRequestDTO dto) {
+    public ResponseEntity<LocationResponseDTO> addLocation(
+            @RequestBody LocationDTO locationDTO) {
 
-        return locationService.create(dto);
+        Location saved = service.addLocation(locationDTO.getLocation());
+
+        LocationResponseDTO response = new LocationResponseDTO();
+        response.setLocation(saved);
+        response.setStatusCode(201);
+        response.setMessage("Location added successfully");
+
+        return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/{id}")
-    public LocationResponseDTO getById(
-            @PathVariable int id) {
-        return locationService.getById(id);
+    @PostMapping("/update")
+    public ResponseEntity<LocationResponseDTO> updateLocation(
+            @RequestBody LocationDTO locationDTO) {
+
+        Location updated = service.updateLocation(locationDTO.getLocation());
+
+        LocationResponseDTO response = new LocationResponseDTO();
+        response.setLocation(updated);
+        response.setStatusCode(200);
+        response.setMessage("Location updated successfully");
+
+        return ResponseEntity.ok(response);
     }
 
-
-    @GetMapping("/by-name")
-    public LocationResponseDTO getByName(
-            @RequestParam String name) {
-        return locationService.getByName(name);
+    @DeleteMapping("/delete/{id}")
+    public String deleteLocation(@PathVariable("id") Long id) throws Exception {
+        return service.deleteLocation(id);
     }
 
-
-    @GetMapping("/getAll")
-    public Page<LocationResponseDTO> getAll(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return locationService.getAll(page, size);
+    @GetMapping("/find/{id}")
+    public Location findLocationById(@PathVariable("id") Long id) throws Exception {
+        return service.findLocationById(id);
     }
 
-
-    @PutMapping("/{id}")
-    public LocationResponseDTO update(
-            @PathVariable int id,
-            @RequestBody LocationRequestDTO dto) {
-        return locationService.update(id, dto);
+    @GetMapping("/fetchAll")
+    public List<Location> fetchAllLocations() {
+        return service.getAllLocations();
     }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) {
-        locationService.delete(id);
-    }
-
-
-
 }
