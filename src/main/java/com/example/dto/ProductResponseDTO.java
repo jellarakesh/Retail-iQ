@@ -1,9 +1,7 @@
 package com.example.dto;
 
 import com.example.entity.Product;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "product", "statusCode", "message" })
 public class ProductResponseDTO {
 
     private Product product;
