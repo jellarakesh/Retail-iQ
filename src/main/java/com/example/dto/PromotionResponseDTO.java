@@ -1,19 +1,21 @@
 package com.example.dto;
 
-import com.example.entity.Location;
+import com.example.entity.Promotion;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class LocationResponseDTO {
+@JsonPropertyOrder({ "promotion", "statusCode", "message" })
+public class PromotionResponseDTO {
 
-    private Location location;
+    private Promotion promotion;
     private int statusCode;
     private String message;
 
-    public Location getLocation() {
-        return location;
+    public Promotion getPromotion() {
+        return promotion;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setPromotion(Promotion promotion) {
+        this.promotion = promotion;
     }
 
     public int getStatusCode() {

@@ -1,19 +1,19 @@
 package com.example.dto;
 
-import com.example.entity.Location;
+import com.example.entity.ReplenishmentOrder;
 
-public class LocationResponseDTO {
+public class ReplenishmentOrderResponseDTO {
 
-    private Location location;
+    private ReplenishmentOrder replenishmentOrder;
     private int statusCode;
     private String message;
 
-    public Location getLocation() {
-        return location;
+    public ReplenishmentOrder getReplenishmentOrder() {
+        return replenishmentOrder;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setReplenishmentOrder(ReplenishmentOrder replenishmentOrder) {
+        this.replenishmentOrder = replenishmentOrder;
     }
 
     public int getStatusCode() {

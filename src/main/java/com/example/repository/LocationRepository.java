@@ -1,9 +1,13 @@
 package com.example.repository;
 
-import com.example.entity.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface LocationRepository extends JpaRepository<Location, Integer> {
+import com.example.entity.Location;
 
+@Repository
+public interface LocationRepository extends JpaRepository<Location, Long> {
+
+    // Optional (useful later)
     Location findByName(String name);
 }

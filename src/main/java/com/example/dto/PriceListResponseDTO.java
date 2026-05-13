@@ -1,19 +1,21 @@
 package com.example.dto;
 
-import com.example.entity.Location;
+import com.example.entity.PriceList;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class LocationResponseDTO {
+@JsonPropertyOrder({ "priceList", "statusCode", "message" })
+public class PriceListResponseDTO {
 
-    private Location location;
+    private PriceList priceList;
     private int statusCode;
     private String message;
 
-    public Location getLocation() {
-        return location;
+    public PriceList getPriceList() {
+        return priceList;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setPriceList(PriceList priceList) {
+        this.priceList = priceList;
     }
 
     public int getStatusCode() {

@@ -1,19 +1,19 @@
 package com.example.dto;
 
-import com.example.entity.Location;
+import com.example.entity.CustomerProfile;
 
-public class LocationResponseDTO {
+public class CustomerProfileResponseDTO {
 
-    private Location location;
+    private CustomerProfile customerProfile;
     private int statusCode;
     private String message;
 
-    public Location getLocation() {
-        return location;
+    public CustomerProfile getCustomerProfile() {
+        return customerProfile;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setCustomerProfile(CustomerProfile customerProfile) {
+        this.customerProfile = customerProfile;
     }
 
     public int getStatusCode() {
