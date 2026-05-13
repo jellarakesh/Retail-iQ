@@ -2,6 +2,15 @@ package com.example.dto;
 
 public class InventoryPositionResponseDTO {
 
+    private int inventoryId;
+
+    public int getInventoryId() {
+        return inventoryId;
+    }
+
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
+    }
 
     private  int locationID;
     private int sku;

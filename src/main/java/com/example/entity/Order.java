@@ -13,11 +13,12 @@ public class Order {
     @Column(name = "OrderID")
     private int orderID;
 
+
     @Column(name = "CustomerID", nullable = false)
     private int customerID;
 
     @Column(name = "Channel", nullable = false)
-    private String channel;   // Web / Mobile / Store
+    private String channel;   // from where the user is buying the product
 
     @Column(name = "OrderDate", nullable = false)
     private LocalDateTime orderDate;

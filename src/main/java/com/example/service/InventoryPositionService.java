@@ -1,96 +1,84 @@
 package com.example.service;
 
-
 import com.example.dto.InventoryPositionRequestDTO;
 import com.example.dto.InventoryPositionResponseDTO;
 import com.example.entity.InventoryPosition;
 import com.example.repository.InventoryPositionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.example.exception.ResourceNotFoundException;
-
-
 @Service
 public class InventoryPositionService {
-    @Autowired
-    private  final InventoryPositionRepository repository;
+
+    private final InventoryPositionRepository repository;
 
     public InventoryPositionService(InventoryPositionRepository repository) {
-
         this.repository = repository;
     }
-    public InventoryPositionResponseDTO create(InventoryPositionRequestDTO dto){
-        InventoryPosition saved = repository.save(mapToEntity(dto));
-        return mapToResponse(saved);
+
+    // ✅ CREATE
+    public InventoryPositionResponseDTO create(InventoryPositionRequestDTO dto) {
+
+        InventoryPosition inventory = new InventoryPosition(
+                dto.getLocationID(),
+                dto.getSku(),
+                dto.getQuantityOnHand(),
+                dto.getQuantityReserved(),
+                dto.getSafetyStock()
+        );
+
+        InventoryPosition saved = repository.save(inventory);
+        return toResponseDTO(saved);
     }
 
-    public InventoryPositionResponseDTO getById(int id){
-        InventoryPosition entity = repository.findById(id).orElseThrow(() ->new ResourceNotFoundException("Inventory position not found with id"+id));
-        return mapToResponse(entity);
+    // ✅ GET BY ID
+    public InventoryPositionResponseDTO getById(int id) {
 
+        InventoryPosition inventory = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory not found"));
+
+        return toResponseDTO(inventory);
     }
 
-
-    public Page<InventoryPositionResponseDTO> getAll(
-            int page, int size) {
+    // ✅ GET ALL
+    public Page<InventoryPositionResponseDTO> getAll(int page, int size) {
 
         return repository.findAll(PageRequest.of(page, size))
-                .map(this::mapToResponse);
+                .map(this::toResponseDTO);
     }
 
-
+    // ✅ UPDATE (FIXED: NO new entity, ID preserved)
     public InventoryPositionResponseDTO update(int id, InventoryPositionRequestDTO dto) {
 
-        InventoryPosition entity = repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "InventoryPosition not found with id " + id));
+        InventoryPosition inventory = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory not found"));
 
-        entity.setLocationID(dto.getLocationID());
-        entity.setSku(dto.getSku());
-        entity.setQuantityOnHand(dto.getQuantityOnHand());
-        entity.setQuantityReserved(dto.getQuantityReserved());
-        entity.setSafetyStock(dto.getSafetyStock());
+        inventory.setLocationID(dto.getLocationID());
+        inventory.setSku(dto.getSku());
+        inventory.setQuantityOnHand(dto.getQuantityOnHand());
+        inventory.setQuantityReserved(dto.getQuantityReserved());
+        inventory.setSafetyStock(dto.getSafetyStock());
 
-        return mapToResponse(repository.save(entity));
+        InventoryPosition saved = repository.save(inventory);
+        return toResponseDTO(saved);
     }
 
-
+    // ✅ DELETE (FIXED: deletes by InventoryID)
     public void delete(int id) {
-        InventoryPosition entity = repository.findById(id)
-                .orElseThrow(() -> {
-                    return new ResourceNotFoundException(
-                            "InventoryPosition not found with id " + id);
-                });
-
-        repository.delete(entity);
+        repository.deleteById(id);
     }
 
-
-    private InventoryPosition mapToEntity(InventoryPositionRequestDTO dto) {
-
-        InventoryPosition entity = new InventoryPosition();
-        entity.setLocationID(dto.getLocationID());
-        entity.setSku(dto.getSku());
-        entity.setQuantityOnHand(dto.getQuantityOnHand());
-        entity.setQuantityReserved(dto.getQuantityReserved());
-        entity.setSafetyStock(dto.getSafetyStock());
-        return entity;
-    }
-
-
-    private InventoryPositionResponseDTO mapToResponse(InventoryPosition entity) {
+    // ✅ INTERNAL DTO MAPPING (NO mapper class)
+    private InventoryPositionResponseDTO toResponseDTO(InventoryPosition inventory) {
 
         InventoryPositionResponseDTO dto = new InventoryPositionResponseDTO();
-        dto.setLocationID(entity.getLocationID());
-        dto.setSku(entity.getSku());
-        dto.setQuantityOnHand(entity.getQuantityOnHand());
-        dto.setQuantityReserved(entity.getQuantityReserved());
-        dto.setSafetyStock(entity.getSafetyStock());
+        dto.setInventoryId(inventory.getInventoryID());
+        dto.setLocationID(inventory.getLocationID());
+        dto.setSku(inventory.getSku());
+        dto.setQuantityOnHand(inventory.getQuantityOnHand());
+        dto.setQuantityReserved(inventory.getQuantityReserved());
+        dto.setSafetyStock(inventory.getSafetyStock());
         return dto;
     }
-
 }
